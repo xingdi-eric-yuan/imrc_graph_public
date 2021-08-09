@@ -18,12 +18,6 @@ def evaluate(env, agent, valid_test="valid", verbose=False):
             quest_list = agent.get_game_quest_info(infos)
             agent.kg.push_batch_question(quest_list, [item["q_srl"] for item in infos])
             previous_belief = None
-            if agent.use_gt_graph:
-                for i in range(batch_size):
-                    full_obs = infos[i]["full_obs"]
-                    full_srl = infos[i]["full_srl"]
-                    for j in range(len(full_obs)):
-                        agent.kg.push_one(i, full_obs[j], full_srl[j])
 
             input_quest, input_quest_mask, quest_id_list = agent.get_agent_inputs(quest_list)
             previous_dynamics = None
@@ -124,12 +118,6 @@ def ensemble_evaluate(env, agents, valid_test="valid"):
             for i in range(num_agents):
                 agents[i].init(obs, infos)
                 agents[i].kg.push_batch_question(quest_list, [item["q_srl"] for item in infos])
-                if agents[i].use_gt_graph:
-                    for i in range(batch_size):
-                        full_obs = infos[i]["full_obs"]
-                        full_srl = infos[i]["full_srl"]
-                        for j in range(len(full_obs)):
-                            agents[i].kg.push_one(i, full_obs[j], full_srl[j])
                 previous_belief.append(None)
                 previous_dynamics.append(None)
 

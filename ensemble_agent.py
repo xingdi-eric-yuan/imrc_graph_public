@@ -16,14 +16,12 @@ class EnsembleAgent(CustomAgent):
             if self.not_finished_yet is None:
                 self.not_finished_yet = np.ones((len(obs),), dtype="float32")
                 self.naozi.push_batch(copy.deepcopy(obs))
-                if not self.use_gt_graph:
-                    self.kg.push_batch(copy.deepcopy(obs), previous_commands, [item["srl"] for item in infos])
+                self.kg.push_batch(copy.deepcopy(obs), previous_commands, [item["srl"] for item in infos])
             else:
                 for i in range(batch_size):
                     if self.not_finished_yet[i] == 1.0:
                         self.naozi.push_one(i, copy.deepcopy(obs[i]))
-                        if not self.use_gt_graph:
-                            self.kg.push_one(i, copy.deepcopy(obs[i]), previous_commands[i], infos[i]["srl"])
+                        self.kg.push_one(i, copy.deepcopy(obs[i]), previous_commands[i], infos[i]["srl"])
 
             description_list = self.naozi.get()
             input_description, input_description_mask, description_id_list = self.get_agent_inputs(description_list)

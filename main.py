@@ -82,13 +82,6 @@ def train():
         agent.init(obs, infos)
         quest_list = agent.get_game_quest_info(infos)
         agent.kg.push_batch_question(quest_list, [item["q_srl"] for item in infos])
-        if agent.use_gt_graph:
-            for i in range(batch_size):
-                full_obs = infos[i]["full_obs"]
-                full_srl = infos[i]["full_srl"]
-                #####################################################
-                for j in range(len(full_obs)):
-                    agent.kg.push_one(i, full_obs[j], full_srl[j])
 
         previous_dynamics = None
         previous_belief = None
