@@ -306,7 +306,7 @@ class CustomAgent:
         except:
             print("Failed to load checkpoint...")
 
-    def load_pretrained_model(self, load_from, load_partial_graph=True):
+    def load_pretrained_model(self, load_from, load_partial_graph=False):
         """
         Load pretrained checkpoint from file.
 
