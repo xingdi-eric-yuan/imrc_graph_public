@@ -63,10 +63,25 @@ python main.py configs/imrc_rel_pos.yaml
 python main.py configs/imrc_srl.yaml
 
 # continuous belief graph
-# in this setting, we need to pre-train the belief graph generator first
+# in this setting, we need a pre-trained graph generator.
+# we provide our pre-trained graph generator at
+# https://drive.google.com/drive/folders/1zZ7C_-xaYsfg2Ms7_BO5n3Qzx69UqMKD?usp=sharing
+
+# one can choose to train their own version by:
 python pretrain_observation_infomax.py configs/pretrain_cont_bnelief.yaml
-# then using the saved model checkpoint
+# then using the downloaded/saved model checkpoint
 python main.py configs/imrc_cont_belief.yaml
+```
+
+To change the task settings/configurations:
+```yaml
+general:
+  naozi_capacity: 1  # capacity of agent's external memory queue (1, 3, 5)
+  generate_or_point: "point"  # "qmpoint": q+o_t, "point": q, "generate": vocab
+  disable_prev_next: False  # False: Easy Mode, True: Hard Mode
+
+model:
+  recurrent: True  # recurrent component described in Section 3.3 and Section 4.Additional Results
 ```
 
 ## Citation
