@@ -1,6 +1,7 @@
 import json
 import re
 import sys
+import os
 import codecs
 import nltk
 import csv
@@ -13,6 +14,9 @@ sentence_tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
 bert_tokenizer = BertTokenizer.from_pretrained('bert-large-uncased-whole-word-masking-finetuned-squad')
 squad_titles = set()
 
+output_dir = "wiki_without_squad"
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
 
 def get_squad_titles(file_name):
 
@@ -62,5 +66,5 @@ with open("wikipedia_utf8_filtered_20pageviews.csv", newline='') as csvfile:
         data[title] = tokenized_sent_list
 
 
-with codecs.open("processed_wiki_no_squad.json", 'w', encoding='utf-8') as json_file:
+with codecs.open(output_dir + "/processed_wiki_without_squad.json", 'w', encoding='utf-8') as json_file:
     json.dump(data, json_file, ensure_ascii=False)

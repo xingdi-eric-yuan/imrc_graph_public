@@ -14,9 +14,9 @@ EVAL_SIZE = 2000
 class ObservationInfomaxData(gym.Env):
 
     FILENAMES_MAP = {
-        "train": "wiki_no_squad_train.json",
-        "valid": "wiki_no_squad_validation.json",
-        "test": "wiki_no_squad_test.json"
+        "train": "wiki_without_squad_train.json",
+        "valid": "wiki_without_squad_validation.json",
+        "test": "wiki_without_squad_test.json"
         }
 
     def __init__(self, config):

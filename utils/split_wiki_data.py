@@ -2,11 +2,13 @@ import json
 import codecs
 import numpy as np
 from tqdm import tqdm
+
+
 validation_size = 10000
 test_size = 10000
 
-
-file_path = "processed_wiki_no_squad.json"
+output_dir = "wiki_without_squad"
+file_path = output_dir + "/processed_wiki_without_squad.json"
 data = json.load(codecs.open(file_path, 'r', 'utf-8'))
 assert data["date"] == "20210104"
 data = data["data"]
@@ -32,9 +34,9 @@ print("train data size: " + str(len(data)))
 print("validation data size: " + str(len(validation_data)))
 print("test data size: " + str(len(test_data)))
 
-with codecs.open("wiki_no_squad_train.json", 'w', encoding='utf-8') as json_file:
+with codecs.open(output_dir + "/wiki_without_squad_train.json", 'w', encoding='utf-8') as json_file:
     json.dump({"date": "20210104", "data": data}, json_file, ensure_ascii=False)
-with codecs.open("wiki_no_squad_validation.json", 'w', encoding='utf-8') as json_file:
+with codecs.open(output_dir + "/wiki_without_squad_validation.json", 'w', encoding='utf-8') as json_file:
     json.dump({"date": "20210104", "data": validation_data}, json_file, ensure_ascii=False)
-with codecs.open("wiki_no_squad_test.json", 'w', encoding='utf-8') as json_file:
+with codecs.open(output_dir + "/wiki_without_squad_test.json", 'w', encoding='utf-8') as json_file:
     json.dump({"date": "20210104", "data": test_data}, json_file, ensure_ascii=False)

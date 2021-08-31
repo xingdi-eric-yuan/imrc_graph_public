@@ -1,0 +1,91 @@
+general:
+  debug_mode: False
+  visdom: True
+  data_path: "squad_split"
+  pretrain_data_path: "wiki_without_squad"
+  random_seed: 42
+  use_cuda: True  # disable this when running on machine without cuda
+  use_this_many_data: -1  # -1 for using all data
+  start_from_beginning: True
+  qa_reward_prior_threshold: 1.0
+  naozi_capacity: 1  # capacity of agent's external memory
+  generate_or_point: "point"  # "qmpoint", "point", "generate"
+  disable_prev_next: False
+  enable_graph_input: "gata"  # "false", "cooccur", "relative_position", "srl", "gata"
+  node_capacity: 64
+  relation_capacity: 16
+
+training:
+  batch_size: 20
+  max_nb_steps_per_episode: 20  # after this many steps, a game is terminated
+  max_episode: 1000000
+  learn_start_from_this_episode: 100
+  target_net_update_frequency: 1000  # sync target net with online net per this many epochs
+  qa_loss_lambda: 1.0
+  interaction_loss_lambda: 1.0
+  discount_gamma: 0.90
+  patience: 0
+  shuffle_sentences_in_qa_training: True
+  optimizer:
+    step_rule: 'adam'  # adam
+    learning_rate: 0.00025
+    clip_grad_norm: 5
+    learning_rate_warmup_until: 1000
+
+pretraining:
+  backprop_frequency: 3 # time steps after which loss.backward() and step()
+
+evaluate:
+  run_eval: True
+  batch_size: 20
+
+checkpoint:
+  report_frequency: 10000  # episode
+  experiment_tag: 'pretrained_graph_generation_model'
+  load_pretrained: False  # during test, enable this so that the agent load your pretrained model
+  load_from_tag: 'not_loading_anything'
+  load_parameter_keywords: []
+  load_graph_generation_model_from_tag: 'not_loading_anything'
+
+replay:
+  replay_memory_capacity: 500000  # adjust this depending on your RAM size
+  replay_memory_priority_fraction: 0.5
+  qa_replay_memory_priority_fraction: 0
+  accumulate_reward_from_final: True
+  update_per_k_game_steps: 1
+  replay_batch_size: 64
+  multi_step: 3
+  replay_sample_history_length: 2
+  replay_sample_update_from: 1
+
+epsilon_greedy:
+  noisy_net: True  # if this is true, then epsilon greedy is disabled
+  epsilon_anneal_episodes: 100000  # -1 if not annealing
+  epsilon_anneal_from: 1.0
+  epsilon_anneal_to: 0.1
+
+model:
+  bert_encoder: False
+  fine_tune_bert: False
+  node_embedding_size: 100
+  node_embedding_trainable: True
+  relation_embedding_size: 32
+  relation_embedding_trainable: True
+  embedding_dropout: 0.1
+  gcn_hidden_dims: [64, 64, 64]
+  gcn_highway_connections: True
+  gcn_num_bases: 3
+  gcn_dropout: 0.1
+  encoder_layers: 1
+  aggregation_layers: 7
+  encoder_conv_num: 4
+  aggregation_conv_num: 2
+  block_hidden_dim: 96
+  n_heads: 1
+  attention_dropout: 0.1
+  block_dropout: 0.1
+  action_scorer_hidden_dim: 150
+  action_scorer_softmax: False
+  question_answerer_hidden_dim: 150
+  tie_embeddings: True
+  recurrent: True
